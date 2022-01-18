@@ -1,6 +1,6 @@
 const {
   addUserService,
-  // findUserByEmailService,
+  getAllUsersService,
 } = require('../service/users');
 
 const addUserController = async (req, res, next) => {
@@ -11,27 +11,25 @@ const addUserController = async (req, res, next) => {
 
     // console.log('controller', newUser);
 
-    return res.status(201).json(newUser);
+    return res.status(201).json({ user: newUser });
   } catch (error) {
     console.log('erro:', error);
     next(error);
   }
 };
 
-/* const findUserByEmailController = async (req, res, next) => {
+const getAllUsersController = async (req, res, next) => {
   try {
-    const { email } = req.body;
+    const users = await getAllUsersService();
 
-    const userEmail = await findUserByEmailService(email);
-
-    return res()
+    return res.status(201).json(users);
   } catch (error) {
     console.log('erro:', error);
     next(error);
   }
-}; */
+};
 
 module.exports = {
   addUserController,
-  // findUserByEmailController,
+  getAllUsersController,
 };

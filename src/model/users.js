@@ -24,7 +24,19 @@ const findUserByEmailModel = async (email) => {
   return userEmail;
 };
 
+const getAllUsersModel = async () => {
+  const connect = await connection();
+
+  const users = await connect
+    .collection('users')
+    .find()
+    .toArray();
+  
+  return users;
+};
+
 module.exports = {
   addUserModel,
   findUserByEmailModel,
+  getAllUsersModel,
 };

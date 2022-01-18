@@ -2,6 +2,7 @@ const Joi = require('@hapi/joi');
 const {
   addUserModel,
   findUserByEmailModel,
+  getAllUsersModel,
 } = require('../model/users');
 const errorHandler = require('../utils/errorHandler');
 
@@ -12,9 +13,9 @@ const userSchema = Joi.object({
 });
 
 const addUserService = async (name, email, password) => {
-  console.log(name);
-  console.log(email);
-  console.log(password);
+  // console.log(name);
+  // console.log(email);
+  // console.log(password);
 
   const { error } = userSchema.validate({ name, email, password });
 
@@ -29,19 +30,19 @@ const addUserService = async (name, email, password) => {
  // console.log('service', userId);
 
  return {
-  user: {
-    name,
-    email,
-    password,
-    role: 'user',
-    _id: newUser,
-  },
+  _id: newUser,
+  name,
+  email,
+  role: 'user',
  };
 };
 
-// const findUserByEmailService = async () => {};
+const getAllUsersService = async () => {
+  const users = await getAllUsersModel();
+  return { users };
+};
 
 module.exports = {
   addUserService,
-  // findUserByEmailService,
+  getAllUsersService,
 };
