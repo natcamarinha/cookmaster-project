@@ -1,5 +1,6 @@
 const {
   addRecipeService,
+  getRecipesService,
 } = require('../service/recipes');
 
 const addRecipeController = async (req, res, next) => {
@@ -18,6 +19,18 @@ const addRecipeController = async (req, res, next) => {
   }
 };
 
+const getRecipesController = async (req, res, next) => {
+  try {
+    const recipes = await getRecipesService();
+
+    return res.status(200).json(recipes);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
+
 module.exports = {
   addRecipeController,
+  getRecipesController,
 };

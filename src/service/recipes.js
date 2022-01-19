@@ -3,6 +3,7 @@ const Joi = require('joi');
 
 const {
   addRecipeModel,
+  getRecipesModel,
 } = require('../model/recipes');
 const errorHandler = require('../utils/errorHandler');
 
@@ -30,6 +31,12 @@ const addRecipeService = async (name, ingredients, preparation, userId) => {
   };
 };
 
+const getRecipesService = async () => {
+  const recipes = await getRecipesModel();
+  return recipes;
+};
+
 module.exports = {
   addRecipeService,
+  getRecipesService,
 };
