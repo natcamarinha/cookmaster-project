@@ -1,4 +1,4 @@
-// const { ObjectId } = require('mongodb');
+const { ObjectId } = require('mongodb');
 const connection = require('./connection');
 
 // Requisito 3:
@@ -14,6 +14,7 @@ const addRecipeModel = async (name, ingredients, preparation, userId) => {
   return insertedId;
 };
 
+// Requisito 4:
 const getRecipesModel = async () => {
   const connect = await connection();
 
@@ -22,7 +23,17 @@ const getRecipesModel = async () => {
   return recipes;
 };
 
+// Requisito 5:
+const getByIdModel = async (id) => {
+  const connect = await connection();
+
+  const recipe = await connect.collection('recipes').findOne({ _id: ObjectId(id) });
+
+  return recipe;
+};
+
 module.exports = {
   addRecipeModel,
   getRecipesModel,
+  getByIdModel,
 };

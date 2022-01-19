@@ -1,9 +1,10 @@
-// const jwt = require('jsonwebtoken');
 const Joi = require('joi');
+const { ObjectId } = require('mongodb');
 
 const {
   addRecipeModel,
   getRecipesModel,
+  getByIdModel,
 } = require('../model/recipes');
 const errorHandler = require('../utils/errorHandler');
 
@@ -36,7 +37,18 @@ const getRecipesService = async () => {
   return recipes;
 };
 
+const getByIdService = async (id) => {
+  if (!ObjectId.isValid(id)) throw errorHandler(404, 'recipe not found');
+
+  const recipe = await getByIdModel(id);
+
+  if (!recipe) throw errorHandler(404, 'recipe not found');
+
+  return recipe;
+};
+
 module.exports = {
   addRecipeService,
   getRecipesService,
+  getByIdService,
 };
