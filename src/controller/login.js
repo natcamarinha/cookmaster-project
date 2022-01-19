@@ -7,8 +7,6 @@ const loginController = async (req, res, next) => {
 
     const user = await loginService(email, password);
 
-    const { password: _password, ...userWithoutPassword } = user;
-
     const token = await createToken(user);
 
     console.log('controller', token);
