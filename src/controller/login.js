@@ -1,7 +1,5 @@
-const jwt = require('jsonwebtoken');
 const { loginService } = require('../service/login');
-
-const secret = 'meuSegredo';
+const { createToken } = require('../middlewares/auth');
 
 const loginController = async (req, res, next) => {
   try {
@@ -9,12 +7,9 @@ const loginController = async (req, res, next) => {
 
     const user = await loginService(email, password);
 
-    const jwtConfig = { 
-      expiresIn: '1d',
-      algorithm: 'HS256',
-    };
+    const { password: _password, ...userWithoutPassword } = user;
 
-    const token = jwt.sign({ data: user }, secret, jwtConfig);
+    const token = await createToken(user);
 
     console.log('controller', token);
     return res.status(200).json({ token });

@@ -1,7 +1,19 @@
-const { ObjectId } = require('mongodb');
+// const { ObjectId } = require('mongodb');
 const connection = require('./connection');
 
-{ "name" : "Receita do Jacquin", "ingredients" : "Frango", "preparation" : "10 minutos no forno" }
+// Requisito 3:
+const addRecipeModel = async (name, ingredients, preparation, userId) => {
+  const connect = await connection();
 
-resposta:
-{ "_id" : ObjectId("5f46919477df66035f61a356"), "name" : "string", "ingredients" : "string", "preparation" : "string", "userId" : ObjectId("5f46914677df66035f61a355") }
+  const { insertedId } = await connect
+    .collection('recipes')
+    .insertOne({ name, ingredients, preparation, userId });
+  
+  console.log('model', insertedId);
+
+  return insertedId;
+};
+
+module.exports = {
+  addRecipeModel,
+};

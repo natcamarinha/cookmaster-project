@@ -1,7 +1,10 @@
-const router = require('express').Router;
+const router = require('express').Router();
+const { validateToken } = require('../middlewares/auth');
 
-const {} = require('../controller/recipes');
+const {
+  addRecipeController,
+} = require('../controller/recipes');
 
-router.post('/');
+router.post('/recipes', validateToken, addRecipeController);
 
 module.exports = router;
