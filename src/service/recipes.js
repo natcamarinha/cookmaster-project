@@ -5,6 +5,7 @@ const {
   addRecipeModel,
   getRecipesModel,
   getByIdModel,
+  editRecipeModel,
 } = require('../model/recipes');
 const errorHandler = require('../utils/errorHandler');
 
@@ -21,7 +22,7 @@ const addRecipeService = async (name, ingredients, preparation, userId) => {
 
   const recipeId = await addRecipeModel(name, ingredients, preparation, userId);
 
-  console.log('service', recipeId);
+  // console.log('service', recipeId);
 
   return {
     name,
@@ -47,8 +48,19 @@ const getByIdService = async (id) => {
   return recipe;
 };
 
+const editRecipeService = async ({ id, name, ingredients, preparation }) => {
+  if (!ObjectId.isValid(id)) throw errorHandler(404, 'recipe not found');
+  
+  const editRecipe = await editRecipeModel({ id, name, ingredients, preparation });
+
+  console.log('service', editRecipe);
+
+  return editRecipe;
+};
+
 module.exports = {
   addRecipeService,
   getRecipesService,
   getByIdService,
+  editRecipeService,
 };

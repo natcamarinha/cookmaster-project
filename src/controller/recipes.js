@@ -2,6 +2,7 @@ const {
   addRecipeService,
   getRecipesService,
   getByIdService,
+  editRecipeService,
 } = require('../service/recipes');
 
 const addRecipeController = async (req, res, next) => {
@@ -43,8 +44,26 @@ const getByIdController = async (req, res, next) => {
   }
 };
 
+const editRecipeController = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { name, ingredients, preparation } = req.body;
+    const userId = req.user;
+
+    const editRecipe = await editRecipeService({ id, name, ingredients, preparation, userId });
+
+    console.log('controller', editRecipe);
+
+    return res.status(200).json(editRecipe);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
+
 module.exports = {
   addRecipeController,
   getRecipesController,
   getByIdController,
+  editRecipeController,
 };

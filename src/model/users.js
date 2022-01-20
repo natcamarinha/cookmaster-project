@@ -8,8 +8,6 @@ const addUserModel = async (name, email, password) => {
   const { insertedId } = await connect
     .collection('users')
     .insertOne({ name, email, password, role: 'user' });
-
-  console.log('model', insertedId);
   
   return insertedId;
 };

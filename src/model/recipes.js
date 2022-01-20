@@ -9,7 +9,7 @@ const addRecipeModel = async (name, ingredients, preparation, userId) => {
     .collection('recipes')
     .insertOne({ name, ingredients, preparation, userId });
   
-  console.log('model', insertedId);
+  // console.log('model', insertedId);
 
   return insertedId;
 };
@@ -32,8 +32,26 @@ const getByIdModel = async (id) => {
   return recipe;
 };
 
+// Requisito 7:
+const editRecipeModel = async ({ id, name, ingredients, preparation }) => {
+  const connect = await connection();
+
+  const editRecipe = await connect
+    .collection('recipes')
+    .findOneAndUpdate(
+      { _id: ObjectId(id) },
+      { $set: { name, ingredients, preparation } },
+      { returnDocument: 'after' }, // https://stackoverflow.com/questions/32811510/mongoose-findoneandupdate-doesnt-return-updated-document
+    );
+
+  console.log('model', editRecipe);
+  
+  return editRecipe.value;
+};
+
 module.exports = {
   addRecipeModel,
   getRecipesModel,
   getByIdModel,
+  editRecipeModel,
 };

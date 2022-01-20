@@ -18,7 +18,7 @@ const loginService = async (email, password) => {
 
   if (!user) throw errorHandler(401, 'Incorrect username or password');
 
-  console.log('service', user);
+  // console.log('service', user);
   return user;
 };
 

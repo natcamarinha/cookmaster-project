@@ -8,7 +8,7 @@ const loginModel = async (email, password) => {
   .collection('users')
   .findOne({ email, password });
 
-  console.log('model', login);
+  // console.log('model', login);
   return login;
 };
 

@@ -1,5 +1,5 @@
 const { loginService } = require('../service/login');
-const { createToken } = require('../middlewares/auth');
+const { createToken } = require('../service/authService');
 
 const loginController = async (req, res, next) => {
   try {
@@ -9,7 +9,7 @@ const loginController = async (req, res, next) => {
 
     const token = await createToken(user);
 
-    console.log('controller', token);
+    // console.log('controller', token);
     return res.status(200).json({ token });
   } catch (error) {
     console.log('erro:', error);
