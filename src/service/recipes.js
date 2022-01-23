@@ -7,6 +7,7 @@ const {
   getByIdModel,
   editRecipeModel,
   deleteModel,
+  // addImageModel,
 } = require('../model/recipes');
 const errorHandler = require('../utils/errorHandler');
 
@@ -67,10 +68,34 @@ const deleteService = async (id) => {
   return exclude;
 };
 
+const addImageService = async (id, image) => {
+/*   if (!ObjectId.isValid(id)) throw errorHandler(404, 'recipe not found');
+
+  const addImage = await addImageModel(id, image);
+
+  console.log('service', addImage);
+
+  return addImage; */
+
+  const recipe = await getByIdService(id);
+
+  const addImage = {
+    ...recipe,
+    image: `localhost:3000/src/uploads/${image}`,
+  };
+
+  const updateRecipe = await editRecipeModel(id, addImage);
+
+  console.log(updateRecipe);
+
+  return updateRecipe;
+};
+
 module.exports = {
   addRecipeService,
   getRecipesService,
   getByIdService,
   editRecipeService,
   deleteService,
+  addImageService,
 };

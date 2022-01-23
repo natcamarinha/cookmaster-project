@@ -60,10 +60,28 @@ const deleteModel = async (id) => {
   return exclude;
 };
 
+// Requisito 9:
+const addImageModel = async (id, image) => {
+  const connect = connection();
+
+  const addImage = await connect
+    .collection('recipes')
+    .findOneAndUpdate(
+      { _id: ObjectId(id) },
+      { $set: { image } },
+      { returnOriginal: false },
+    );
+  
+  console.log('model', addImage);
+
+  return addImage;
+};
+
 module.exports = {
   addRecipeModel,
   getRecipesModel,
   getByIdModel,
   editRecipeModel,
   deleteModel,
+  addImageModel,
 };

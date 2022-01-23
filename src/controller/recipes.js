@@ -4,6 +4,7 @@ const {
   getByIdService,
   editRecipeService,
   deleteService,
+  addImageService,
 } = require('../service/recipes');
 
 const addRecipeController = async (req, res, next) => {
@@ -74,10 +75,30 @@ const deleteController = async (req, res, next) => {
   }
 };
 
+const addImageController = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    // const image = `localhost:3000/src/uploads/${id}.jpeg`;
+    // const { name, ingredients, preparation } = req.body;
+    // const userId = req.data;
+    const { filename } = req.file;
+
+    const addImage = await addImageService(id, filename);
+
+    console.log('controller', addImage);
+
+    return res.status(200).json(addImage);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
+
 module.exports = {
   addRecipeController,
   getRecipesController,
   getByIdController,
   editRecipeController,
   deleteController,
+  addImageController,
 };
