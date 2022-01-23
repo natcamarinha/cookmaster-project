@@ -6,11 +6,11 @@ module.exports = (req, res, next) => {
 
     if (!authorization) return res.status(401).json({ message: 'missing auth token' });
 
-    const user = verifyToken(authorization);
+    const data = verifyToken(authorization);
 
-    console.log('userAuth', user);
+    // console.log('userAuth', data.role);
     
-    if (!user) return res.status(401).json({ message: 'jwt malformed' });
+    if (!data) return res.status(401).json({ message: 'jwt malformed' });
 
     // const userRole = isAdmin(role);
 
@@ -18,11 +18,13 @@ module.exports = (req, res, next) => {
 
     // if (userRole !== 'admin') return res.status(401).json({ message: 'not authorized' });
 
-    req.user = user;
+    // if (data.role !== 'admin') return res.status(401).json({ message: 'not admin' });
+
+    req.user = data;
 
     next();
   } catch (error) {
     console.log('erroValidação: ', error);
-    return res.status(401).json({ message: 'Falha na autenticação' });
+    return res.status(401).json({ message: 'jwt malformed' });
   }
 };

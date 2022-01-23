@@ -33,26 +33,20 @@ const getByIdModel = async (id) => {
 };
 
 // Requisito 7:
-const editRecipeModel = async (id, name, ingredients, preparation) => {
+const editRecipeModel = async ({ id, name, ingredients, preparation }) => {
   const connect = await connection();
-
-  // console.log('modelID', id);
 
   const editRecipe = await connect
     .collection('recipes')
     .findOneAndUpdate(
       { _id: ObjectId(id) },
       { $set: { name, ingredients, preparation } },
-      { returnDocument: 'after' }, // https://stackoverflow.com/questions/32811510/mongoose-findoneandupdate-doesnt-return-updated-document
+      { returnOriginal: false },
     );
 
   console.log('model', editRecipe);
 
-  const recipe = await getByIdModel(id);
-
-  console.log('model', recipe);
-  
-  return recipe;
+  return editRecipe.value;
 };
 
 // Requisito 8: 
@@ -61,7 +55,7 @@ const deleteModel = async (id) => {
 
   const exclude = await connect
     .collection('recipes')
-    .findOneAndDelete({ _id: ObjectId(id) }, {});
+    .findOneAndDelete({ _id: ObjectId(id) });
   
   return exclude;
 };

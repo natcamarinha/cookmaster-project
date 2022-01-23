@@ -49,24 +49,18 @@ const getByIdService = async (id) => {
   return recipe;
 };
 
-const editRecipeService = async (id, name, ingredients, preparation) => {
-  console.log('edit', id);
+const editRecipeService = async ({ id, name, ingredients, preparation }) => {
+  if (!ObjectId.isValid(id)) throw errorHandler(404, 'recipe not found');
 
-  const { error } = recipeSchema.validate({ name, ingredients, preparation });
+  const editRecipe = await editRecipeModel({ id, name, ingredients, preparation });
 
-  if (error) throw errorHandler(404, 'recipe not found - erro 1');
-  
-  const recipe = await editRecipeModel(id, name, ingredients, preparation);
+  console.log('service', editRecipe);
 
-  if (!recipe) throw errorHandler(404, 'recipe not found - erro 2');
-
-  console.log('service', recipe);
-
-  return recipe;
+  return editRecipe;
 };
 
 const deleteService = async (id) => {
-  if (!ObjectId.isValid(id)) throw errorHandler(401, 'recipe not found');
+  if (!ObjectId.isValid(id)) throw errorHandler(404, 'recipe not found');
 
   const exclude = await deleteModel(id);
 

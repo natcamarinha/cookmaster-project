@@ -50,13 +50,9 @@ const editRecipeController = async (req, res, next) => {
   try {
     const { id } = req.params;
     const { name, ingredients, preparation } = req.body;
-    const { _id, role } = req.user;
+    const userId = req.data;
 
-    console.log(id, _id, role);
-
-    if (role !== 'admin') throw errorHandler(404, 'not admin');
-
-    const editRecipe = await editRecipeService({ id, name, ingredients, preparation, userId: _id });
+    const editRecipe = await editRecipeService({ id, name, ingredients, preparation, userId });
 
     console.log('controller', editRecipe);
 
