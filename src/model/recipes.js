@@ -33,8 +33,10 @@ const getByIdModel = async (id) => {
 };
 
 // Requisito 7:
-const editRecipeModel = async ({ id, name, ingredients, preparation }) => {
+const editRecipeModel = async (id, name, ingredients, preparation) => {
   const connect = await connection();
+
+  // console.log('modelID', id);
 
   const editRecipe = await connect
     .collection('recipes')
@@ -45,8 +47,23 @@ const editRecipeModel = async ({ id, name, ingredients, preparation }) => {
     );
 
   console.log('model', editRecipe);
+
+  const recipe = await getByIdModel(id);
+
+  console.log('model', recipe);
   
-  return editRecipe.value;
+  return recipe;
+};
+
+// Requisito 8: 
+const deleteModel = async (id) => {
+  const connect = await connection();
+
+  const exclude = await connect
+    .collection('recipes')
+    .findOneAndDelete({ _id: ObjectId(id) }, {});
+  
+  return exclude;
 };
 
 module.exports = {
@@ -54,4 +71,5 @@ module.exports = {
   getRecipesModel,
   getByIdModel,
   editRecipeModel,
+  deleteModel,
 };

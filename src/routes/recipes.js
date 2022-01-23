@@ -6,11 +6,13 @@ const {
   getRecipesController,
   getByIdController,
   editRecipeController,
+  deleteController,
 } = require('../controller/recipes');
 
 router.post('/recipes', auth, addRecipeController);
 router.get('/recipes', getRecipesController);
 router.get('/recipes/:id', getByIdController);
 router.put('/recipes/:id', auth, editRecipeController);
+router.delete('/recipes/:id', auth, deleteController);
 
 module.exports = router;

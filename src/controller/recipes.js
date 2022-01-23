@@ -3,14 +3,16 @@ const {
   getRecipesService,
   getByIdService,
   editRecipeService,
+  deleteService,
 } = require('../service/recipes');
+const errorHandler = require('../utils/errorHandler');
 
 const addRecipeController = async (req, res, next) => {
   try {
     const { name, ingredients, preparation } = req.body;
-    const userId = req.user;
+    const { _id } = req.user;
 
-    const newRecipe = await addRecipeService(name, ingredients, preparation, userId);
+    const newRecipe = await addRecipeService(name, ingredients, preparation, _id);
 
     // console.log('controller', newRecipe);
 
@@ -48,13 +50,29 @@ const editRecipeController = async (req, res, next) => {
   try {
     const { id } = req.params;
     const { name, ingredients, preparation } = req.body;
-    const userId = req.user;
+    const { _id, role } = req.user;
 
-    const editRecipe = await editRecipeService({ id, name, ingredients, preparation, userId });
+    console.log(id, _id, role);
+
+    if (role !== 'admin') throw errorHandler(404, 'not admin');
+
+    const editRecipe = await editRecipeService({ id, name, ingredients, preparation, userId: _id });
 
     console.log('controller', editRecipe);
 
     return res.status(200).json(editRecipe);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
+
+const deleteController = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const exclude = await deleteService(id);
+
+    return res.status(204).json(exclude);
   } catch (error) {
     console.log(error);
     next(error);
@@ -66,4 +84,5 @@ module.exports = {
   getRecipesController,
   getByIdController,
   editRecipeController,
+  deleteController,
 };

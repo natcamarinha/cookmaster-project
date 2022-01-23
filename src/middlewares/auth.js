@@ -8,11 +8,11 @@ module.exports = (req, res, next) => {
 
     const user = verifyToken(authorization);
 
-    // console.log('userAuth', user);
+    console.log('userAuth', user);
     
     if (!user) return res.status(401).json({ message: 'jwt malformed' });
 
-    // const userRole = isAdmin(authorization);
+    // const userRole = isAdmin(role);
 
     // console.log('userAdmin', userRole);
 
@@ -22,7 +22,7 @@ module.exports = (req, res, next) => {
 
     next();
   } catch (error) {
-    // console.log('erroValidação: ', error);
+    console.log('erroValidação: ', error);
     return res.status(401).json({ message: 'Falha na autenticação' });
   }
 };
