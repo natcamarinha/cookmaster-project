@@ -5,7 +5,6 @@ const {
   editRecipeService,
   deleteService,
 } = require('../service/recipes');
-const errorHandler = require('../utils/errorHandler');
 
 const addRecipeController = async (req, res, next) => {
   try {
