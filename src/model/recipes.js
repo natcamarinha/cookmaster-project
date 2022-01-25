@@ -62,7 +62,7 @@ const deleteModel = async (id) => {
 
 // Requisito 9:
 const addImageModel = async (id, image) => {
-  const connect = connection();
+  const connect = await connection();
 
   const addImage = await connect
     .collection('recipes')
@@ -74,7 +74,7 @@ const addImageModel = async (id, image) => {
   
   console.log('model', addImage);
 
-  return addImage;
+  return addImage.value;
 };
 
 module.exports = {

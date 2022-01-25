@@ -76,19 +76,6 @@ const addImageService = async (id, image) => {
   console.log('service', addImage);
 
   return addImage;
-/* 
-  const recipe = await getByIdService(id);
-
-  const addImage = {
-    ...recipe,
-    image: `localhost:3000/src/uploads/${image}`,
-  };
-
-  const updateRecipe = await editRecipeModel(id, addImage);
-
-  console.log(updateRecipe);
-
-  return updateRecipe; */
 };
 
 module.exports = {

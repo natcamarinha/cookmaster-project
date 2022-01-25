@@ -1,7 +1,7 @@
 const { verifyToken } = require('../service/authService');
 
 module.exports = (req, res, next) => {
-  console.log(req.file.image);
+  // console.log(req.file.image);
   try {
     const { authorization } = req.headers;
 
