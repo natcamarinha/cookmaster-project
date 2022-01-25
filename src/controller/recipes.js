@@ -78,9 +78,6 @@ const deleteController = async (req, res, next) => {
 const addImageController = async (req, res, next) => {
   try {
     const { id } = req.params;
-    // const image = `localhost:3000/src/uploads/${id}.jpeg`;
-    // const { name, ingredients, preparation } = req.body;
-    // const userId = req.data;
     const { filename } = req.file;
 
     const addImage = await addImageService(id, filename);
