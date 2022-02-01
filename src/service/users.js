@@ -3,6 +3,7 @@ const {
   addUserModel,
   findUserByEmailModel,
   getAllUsersModel,
+  addAdminModel,
 } = require('../model/users');
 const errorHandler = require('../utils/errorHandler');
 
@@ -42,7 +43,30 @@ const getAllUsersService = async () => {
   return { users };
 };
 
+const addAdminService = async (name, email, password) => {
+  
+  const { error } = userSchema.validate({ name, email, password });
+
+  if (error) throw errorHandler(400, 'Invalid entries. Try again.');
+
+  const emailExist = await findUserByEmailModel(email);
+
+  if (emailExist) throw errorHandler(409, 'Email already registered');
+
+  const userId = await addAdminModel(name, email, password);
+
+ // console.log('service', userId);
+
+ return {
+  _id: userId,
+  name,
+  email,
+  role: 'admin',
+ };
+};
+
 module.exports = {
   addUserService,
   getAllUsersService,
+  addAdminService,
 };

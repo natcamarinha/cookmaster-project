@@ -32,8 +32,20 @@ const getAllUsersModel = async () => {
   return users;
 };
 
+// Requisito 12:
+const addAdminModel = async (name, email, password) => {
+  const connect = await connection();
+
+  const { insertedId } = await connect
+    .collection('users')
+    .insertOne({ name, email, password, role: 'admin' });
+  
+  return insertedId;
+};
+
 module.exports = {
   addUserModel,
   findUserByEmailModel,
   getAllUsersModel,
+  addAdminModel,
 };

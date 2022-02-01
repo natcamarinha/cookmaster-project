@@ -1,6 +1,7 @@
 const {
   addUserService,
   getAllUsersService,
+  addAdminService,
 } = require('../service/users');
 
 const addUserController = async (req, res, next) => {
@@ -29,7 +30,23 @@ const getAllUsersController = async (req, res, next) => {
   }
 };
 
+const addAdminController = async (req, res, next) => {
+  try {
+    const { name, email, password } = req.body;
+
+    const newAdmin = await addAdminService(name, email, password);
+
+    // console.log('controller', newAdmin);
+
+    return res.status(201).json({ user: newAdmin });
+  } catch (error) {
+    console.log('erro:', error);
+    next(error);
+  }
+};
+
 module.exports = {
   addUserController,
   getAllUsersController,
+  addAdminController,
 };
